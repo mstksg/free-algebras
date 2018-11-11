@@ -85,6 +85,19 @@ jobs:
           o: "./result-fa"
       - cachix-push:
           o: "./result-ex"
+  GHC710:
+    <<: *defaults
+    steps:
+      - setup
+      - run:
+          name: "GHC 710"
+          command: |
+            nix-build release.nix -A free-algebras --argstr compiler ghc7103 -o result-fa
+            nix-build release.nix -A examples      --argstr compiler ghc7103 -o result-ex
+      - cachix-push:
+          o: "./result-fa"
+      - cachix-push:
+          o: "./result-ex"
 
 workflows:
   build:
@@ -93,3 +106,4 @@ workflows:
       - GHC844
       - GHC822
       - GHC802
+      - GHC710
